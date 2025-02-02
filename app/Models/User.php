@@ -10,6 +10,21 @@ use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     title="User",
+ *     required={"id", "name", "email"},
+ *     @OA\Property(property="id", type="integer", description="ID пользователя"),
+ *     @OA\Property(property="name", type="string", description="Имя пользователя"),
+ *     @OA\Property(property="email", type="string", description="Email пользователя"),
+ *     @OA\Property(property="orders", type="array", @OA\Items(ref="#/components/schemas/Order")),
+ *     @OA\Property(property="profile", ref="#/components/schemas/Profile")
+ * )
+ */
 
 
 class User extends Authenticatable
@@ -47,12 +62,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
+    /**
+     * Связь с заказами пользователя.
+     *
+     * @return HasMany
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * Связь с профилем пользователя.
+     *
+     * @return HasOne
+     */
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
