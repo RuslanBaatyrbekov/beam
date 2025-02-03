@@ -160,7 +160,7 @@ return [
          * Package Service Providers...
          */
         SwaggerLume\ServiceProvider::class,
-
+        Orchid\Platform\Providers\FoundationServiceProvider::class,
         /*
          * Application Service Providers...
          */

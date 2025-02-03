@@ -203,7 +203,27 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Product"
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "stock"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Название товара",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Цена товара",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "stock": {
+                                        "description": "Количество товара на складе",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }

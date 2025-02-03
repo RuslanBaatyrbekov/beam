@@ -36,7 +36,12 @@ class ProductController extends Controller
      *     tags={"Products"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *         @OA\JsonContent(
+     *             required={"name", "price", "stock"},
+     *             @OA\Property(property="name", type="string", description="Название товара"),
+     *             @OA\Property(property="price", type="number", format="float", description="Цена товара"),
+     *             @OA\Property(property="stock", type="integer", description="Количество товара на складе")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=201,
@@ -47,7 +52,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create($request->all());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer'
+        ]);
+        $product = Product::create($validated);
         return response()->json($product, 201);
     }
 
